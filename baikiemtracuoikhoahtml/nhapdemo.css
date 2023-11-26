@@ -1,0 +1,121 @@
+*{
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+   
+}
+.tong1{
+    width: 100%;
+    height: 647px;
+    display: flex;
+    background-color:rgba(30, 40, 50, 0.05);
+}
+
+.box-left{
+    width: 13%;
+    height: 647px;
+    background-color: rgba(30, 40, 50, 0.05);
+}
+.box-left img{
+    width: 132.34px;
+    height: 66.61px;
+    transform: rotate(-150deg);
+    flex-shrink: 0;
+}
+
+.box-center{
+    width: 74%;
+    height:647px;
+    background: var(--Black-5, rgba(30, 40, 50, 0.05));
+    
+  
+}
+.box-right{
+    width: 13%;
+    height: 647px;
+    background-color:rgba(30, 40, 50, 0.05);
+
+}
+.box-right img{
+    width: 194.754px;
+    height: 261.907px;
+    flex-shrink: 0;
+}
+
+.summ{
+    width: 100%;
+    height: 550px;
+    background: var(--Black-5, rgba(30, 40, 50, 0.05));
+    display: flex;
+}
+.box01{
+    width: 65%;
+    height: 100%;
+    background: var(--Black-5, rgba(30, 40, 50, 0.05));
+    align-items: center;
+    justify-content: space-between;
+}
+.box01 ul li.p1{
+    color: var(--Dark, #000);
+    font-feature-settings: 'clig' off, 'liga' off;
+    /* Body */
+    font-family: Roboto;
+    font-size: 74px;
+    font-style: normal;
+    font-weight: 300;
+    line-height: 55px; /* 74.324% */
+    text-transform: capitalize;
+    list-style: none;
+    
+}
+.box01 ul li.p2{
+    color: var(--Dark, #000);
+    font-feature-settings: 'clig' off, 'liga' off;
+    /* Paragraph - Larg */
+    font-family: Roboto;
+    font-size: 30px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 55px; /* 183.333% */
+    text-transform: capitalize;
+    list-style: none;
+}  
+
+button{
+    display: inline-flex;
+    padding: 19px 26px;
+    justify-content: center;
+    align-items: center;
+    gap: 8px;
+    background: var(--Black, #1E2832);
+    font-size: 20px;
+    color: white;
+}
+
+
+.box02{
+    width: 35%;
+    height: 100%;
+    background: var(--Black-5, rgba(30, 40, 50, 0.05));
+}
+.box02 img{
+    width: 380px;
+    height: 500px;
+    flex-shrink: 0;
+}
+.slide{
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.box03{
+    width: 100%;
+    height: 150px;
+    display: flex;
+    
+    justify-content: center;
+    align-items: center;
+    flex-shrink: 0;
+    background-color:white;
+}
