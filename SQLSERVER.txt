@@ -1,0 +1,117 @@
+create database sanpham;
+USE sanpham; 
+CREATE TABLE Categories (
+    category_id INT PRIMARY KEY,
+    category_name VARCHAR(255) 
+);
+
+
+-- product_id (PK): Khóa chính sản phẩm
+-- product_name: Tên sản phẩm
+-- category_id (FK): Khóa ngoại liên kết đến bảng Categories
+-- price: Giá sản phẩm
+CREATE TABLE Products (
+    product_id INT PRIMARY KEY,
+    product_name VARCHAR(255) ,
+    category_id INT,
+    price DECIMAL(9, 2),
+    FOREIGN KEY (category_id) REFERENCES Categories(category_id)
+);
+CREATE TABLE Customers (
+    customer_id INT PRIMARY KEY,
+    customer_name VARCHAR(255) ,
+    email VARCHAR(255) 
+);
+
+CREATE TABLE Orders (
+    order_id INT PRIMARY KEY,
+    customer_id INT,
+    order_date DATE,
+    FOREIGN KEY (customer_id) REFERENCES Customers(customer_id)
+);
+CREATE TABLE OrderDetails (
+    order_detail_id INT PRIMARY KEY,
+    order_id INT,
+    product_id INT,
+    quantity INT,
+    FOREIGN KEY (order_id) REFERENCES Orders(order_id),
+    FOREIGN KEY (product_id) REFERENCES Products(product_id)
+);
+
+INSERT INTO Categories (category_id, category_name) VALUES
+    (1, 'eclectronic'),
+    (2, 'game'),
+    (3, 'consol');
+INSERT INTO Products (product_id, product_name, category_id, price) VALUES
+    (1, 'GTX3080ti', 1, 500.00),
+    (2, 'eldent ring', 2, 60),
+    (3, 'pokemon scalet', 2,60),
+    (4, 'legend of zelda', 2,60),
+    (5, 'nitendoSwitch', 3, 300.00);
+ INSERT INTO Customers (customer_id, customer_name, email) VALUES
+    (1, 'quang', 'quang@gamil.com'),
+    (2, 'hieu', 'hieu@gamil.com'),
+    (3, 'do hieu', 'dohieu@gamil.com'),
+	(4, 'thao', 'thao@gamil.com'),
+	(5, 'thu', 'thu@gamil.com'),
+	(6, 'tan', 'tan@gamil.com'),
+	(7, 'phong', 'phong@gamil.com');
+   INSERT INTO Orders (order_id, customer_id, order_date) VALUES
+    (1, 1, '2024-01-29'),
+    (2, 2, '2024-01-26'),
+    (3, 3, '2024-01-27'),
+    (4, 1, '2024-01-27'),
+    (5, 2, '2024-01-26'),
+    (6, 2, '2024-01-23'),
+    (7, 3, '2024-01-22');
+    
+    INSERT INTO OrderDetails (order_detail_id, order_id, product_id, quantity) VALUES
+    (1, 1, 1, 2),
+    (2, 2, 3, 3),
+    (3, 3, 2, 1),
+    (4, 4, 3, 3),
+	(7, 5, 3, 3),
+    (5, 6, 2, 1),
+    (6, 7, 5, 1);
+-- cau1
+SELECT Products.product_id, Products.product_name, OrderDetails.quantity
+FROM Products
+JOIN OrderDetails ON Products.product_id = OrderDetails.product_id
+WHERE OrderDetails.order_id = 7; 
+-- cau2
+SELECT SUM(Products.price * OrderDetails.quantity) AS total_amount
+FROM Products
+JOIN OrderDetails ON Products.product_id = OrderDetails.product_id
+WHERE OrderDetails.order_id = 4;
+-- cau3
+SELECT Categories.category_name, COUNT(Products.product_id) AS total_products
+FROM Categories
+LEFT JOIN Products ON Categories.category_id = Products.category_id
+GROUP BY Categories.category_name;
+-- cau4
+SELECT Products.product_id, Products.product_name
+FROM Products
+LEFT JOIN OrderDetails ON Products.product_id = OrderDetails.product_id
+WHERE OrderDetails.product_id IS NULL;
+-- cau5
+SELECT Customers.customer_name, SUM(OrderDetails.quantity) AS total_ordered
+FROM Customers
+JOIN Orders ON Customers.customer_id = Orders.customer_id
+JOIN OrderDetails ON Orders.order_id = OrderDetails.order_id
+GROUP BY Customers.customer_name;
+-- cau6
+SELECT Categories.category_name, COUNT(Products.product_id) AS product_count
+FROM Categories
+LEFT JOIN Products ON Categories.category_id = Products.category_id
+GROUP BY Categories.category_name
+ORDER BY product_count DESC
+LIMIT 1;
+
+
+ 
+ 
+    
+   
+
+
+
