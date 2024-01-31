@@ -1,0 +1,162 @@
+create database quanlykho2;
+select * from quanlykho2.hang;
+select * from quanlykho2.khohang;
+select * from quanlykho2.nhacungcap;
+select * from quanlykho2.phieunhap;
+select * from quanlykho2.phieuxuat;
+select * from quanlykho2.chitietphieunhap;
+select * from quanlykho2.chitietphieuxuat;
+use quanlykho2;
+Create table khohang(
+Makho INT not null Primary key ,
+tenkho varchar(20) not null,
+diachi varchar(25) not null
+);
+Create table phieunhap(
+SoPn varchar(10) not null Primary key,
+ngaynhap date,
+Masanpham INT not null ,
+MaNhacc INT not null,
+FOREIGN KEY (Masanpham) REFERENCES hang(Masanpham),
+FOREIGN KEY (MaNhacc) REFERENCES nhacungcap(MaNhacc)
+);
+Create table phieuxuat(
+SoPx char(10) not null Primary key ,
+ngayxuat date,
+Masanpham INT not null ,
+FOREIGN KEY (Masanpham) REFERENCES hang(Masanpham)
+);
+
+Create table hang(
+Masanpham INT not null Primary key,
+tensp varchar(100) not null,
+MaNhacc INT not null,
+tennhacc varchar(100) not null ,
+FOREIGN KEY (MaNhacc) REFERENCES nhacungcap(MaNhacc)
+);
+Create table nhacungcap(
+MaNhacc INT not null Primary key,
+tennhacc varchar(100) not null ,
+diachi varchar(100) not null,
+tele char(10),
+email varchar(100)
+);
+
+Create table chitietphieunhap(
+SoPn varchar(10) not null , 
+MaNhacc INT,
+Masanpham INT not null ,
+SLnhap char(10) not null,
+CONSTRAINT PRK_CTPNHAP_SoPN_MaVTu PRIMARY KEY(SoPN,Masanpham),
+CONSTRAINT CHK_CTPNHAP_SLNhap CHECK(SLNhap > 0 ),
+FOREIGN KEY (SoPN) REFERENCES phieunhap(SoPN),
+FOREIGN KEY (MaNhacc) REFERENCES nhacungcap(MaNhacc),
+FOREIGN KEY (Masanpham) REFERENCES hang(Masanpham)
+);
+Create table chitietphieuxuat(
+SoPx char(10) not null ,
+Masanpham INT not null ,
+SLxuat char(10) not null,
+CONSTRAINT PRK_CTPXUAT_SoPX_MaVTu PRIMARY KEY(SoPX,Masanpham ),
+CONSTRAINT CHK_CTPXUAT_SLXuat_DGXuat CHECK(SLxuat > 0 ),
+FOREIGN KEY (SoPX) REFERENCES phieuxuat(SoPX),
+FOREIGN KEY (Masanpham) REFERENCES hang(Masanpham)
+);
+-- quan he 1-1-- 
+CREATE TABLE khohang_phieuxuat (
+    Makho INT NOT NULL PRIMARY KEY,
+    SoPx CHAR(10) NOT NULL UNIQUE,
+    FOREIGN KEY (Makho) REFERENCES khohang(Makho),
+    FOREIGN KEY (SoPx) REFERENCES phieuxuat(SoPx)
+);
+-- quan hẹ 1-n
+CREATE TABLE nhacungcap_hang (
+    MaNhacc INT NOT NULL,
+    Masanpham INT NOT NULL,
+    CONSTRAINT PK_nhacungcap_hang PRIMARY KEY (MaNhacc, Masanpham),
+    FOREIGN KEY (MaNhacc) REFERENCES nhacungcap(MaNhacc),
+    FOREIGN KEY (Masanpham) REFERENCES hang(Masanpham)
+);
+-- Thêm dữ liệu vào bảng khohang
+INSERT INTO khohang(Makho, tenkho, diachi) VALUES 
+(1, 'biên hòa', 'nghệ an'),
+(2, 'long thành', 'sài gòn');
+
+-- Thêm dữ liệu vào bảng hang
+INSERT INTO hang(Masanpham, tensp, MaNhacc, tennhacc) VALUES 
+(1, 'nitendo switch v2', 1, 'nitendo'),
+(2, 'nitendo switch oled', 1, 'nitendo'),
+(3, 'elden ring', 2, 'fromsoftware'),
+(4, 'pokemon violet', 3, 'gamefrick'),
+(5, 'nitendo3ds', 1, 'nitendo'),
+(6, 'ps5', 4, 'soni'),
+(7, 'gtx3080ti', 5, 'nvidia'),
+(8, 'gtx1650', 5, 'nvidia');
+
+-- Thêm dữ liệu vào bảng nhacungcap
+INSERT INTO nhacungcap(MaNhacc, tennhacc, diachi, tele, email) VALUES 
+(1, 'Nintendo', 'Tokyo, Japan', '0123456789', 'info@nintendo.com'),
+(2, 'FromSoftware', 'Tokyo, Japan', '0987654321', 'info@fromsoftware.com'),
+(3, 'GameFrick', 'Los Angeles, USA', '0123456789', 'info@gamefrick.com'),
+(4, 'Sony', 'Tokyo, Japan', '0987654321', 'info@sony.com'),
+(5, 'NVIDIA', 'Santa Clara, USA', '0123456789', 'info@nvidia.com');
+
+-- Thêm dữ liệu vào bảng phieunhap
+INSERT INTO phieunhap(SoPn, ngaynhap, Masanpham, MaNhacc) VALUES 
+('PN001', '2023-01-21', 1, 1),
+('PN002', '2023-01-29', 2, 1),
+('PX003', '2023-01-22', 3, 2),
+('PX004', '2023-01-02', 4, 3),
+('PX005', '2023-01-11', 5, 1),
+('PX006', '2023-01-11', 6, 4),
+('PX007', '2023-01-11', 7, 5),
+('PX008', '2023-01-11', 8, 5);
+
+-- Thêm dữ liệu vào bảng phieuxuat
+INSERT INTO phieuxuat(SoPx, ngayxuat, Masanpham) VALUES 
+('PX001', '2023-01-18', 1),
+('PX002', '2023-01-19', 2),
+('PX003', '2023-01-20', 3),
+('PX004', '2023-01-21', 4),
+('PX005', '2023-01-20', 5),
+('PX006', '2023-01-20', 6),
+('PX007', '2023-01-20', 7),
+('PX008', '2023-01-20', 8);
+
+-- Thêm dữ liệu vào bảng chitietphieunhap
+INSERT INTO chitietphieunhap(SoPn, MaNhacc, Masanpham, SLnhap) VALUES 
+('PN001', 1, 1, '50'),
+('PN002', 1, 2, '100'),
+('PX003', 2, 3, '50'),
+('PX004', 3, 4, '75'),
+('PX005', 1, 5, '90'),
+('PX006', 4, 6, '99'),
+('PX007', 5, 7, '100'),
+('PX008', 5, 8, '20');
+
+-- Thêm dữ liệu vào bảng chitietphieuxuat
+INSERT INTO chitietphieuxuat(SoPx, Masanpham, SLxuat) VALUES 
+('PX001', 1, '20'),
+('PX002', 2, '10'),
+('PX003', 3, '20'),
+('PX004', 4, '50'),
+('PX005', 5, '5'),
+('PX006', 6, '30'),
+('PX007', 7, '40'),
+('PX008', 8, '50');
+
+
+USE quanlykho2;
+SELECT phieunhap.SoPn, phieunhap.ngaynhap, hang.tensp, hang.tennhacc
+FROM phieunhap
+INNER JOIN hang ON phieunhap.Masanpham = hang.Masanpham;
+SELECT phieuxuat.SoPx, phieuxuat.ngayxuat, hang.tensp, hang.tennhacc
+FROM phieuxuat
+INNER JOIN hang ON phieuxuat.Masanpham = hang.Masanpham;
+SELECT chitietphieunhap.SoPn, nhacungcap.tennhacc, chitietphieunhap.SLnhap
+FROM chitietphieunhap
+INNER JOIN nhacungcap ON chitietphieunhap.MaNhacc = nhacungcap.MaNhacc;
+SELECT chitietphieuxuat.SoPx, khohang.tenkho, chitietphieuxuat.SLxuat
+FROM chitietphieuxuat
+INNER JOIN khohang ON chitietphieuxuat.Masanpham = khohang.Makho;
+

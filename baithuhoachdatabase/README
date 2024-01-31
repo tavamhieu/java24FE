@@ -1,0 +1,70 @@
+# Quản Lý Kho Database
+
+## Giới Thiệu
+
+Database Quản Lý Kho là một cơ sở dữ liệu thiết kế để lưu trữ thông tin
+ về sản phẩm, kho hàng, phiếu nhập, phiếu xuất và các mối
+ quan hệ giữa chúng trong quá trình quản lý kho.
+
+## Cấu Trúc Database
+
+### Bảng `khohang`
+
+- `Makho`: Khóa chính, ID của kho hàng.
+- `tenkho`: Tên của kho hàng.
+- `diachi`: Địa chỉ của kho hàng.
+
+### Bảng `phieunhap`
+
+- `SoPn`: Khóa chính, Số phiếu nhập.
+- `ngaynhap`: Ngày nhập phiếu.
+- `Masanpham`: ID sản phẩm liên quan.
+- `MaNhacc`: ID nhà cung cấp liên quan.
+
+### Bảng `phieuxuat`
+
+- `SoPx`: Khóa chính, Số phiếu xuất.
+- `ngayxuat`: Ngày xuất phiếu.
+- `Masanpham`: ID sản phẩm liên quan.
+
+### Bảng `hang`
+
+- `Masanpham`: Khóa chính, ID của sản phẩm.
+- `tensp`: Tên sản phẩm.
+- `MaNhacc`: ID nhà cung cấp liên quan.
+- `tennhacc`: Tên nhà cung cấp.
+
+### Bảng `nhacungcap`
+
+- `MaNhacc`: Khóa chính, ID của nhà cung cấp.
+- `tennhacc`: Tên nhà cung cấp.
+- `diachi`: Địa chỉ nhà cung cấp.
+- `tele`: Số điện thoại.
+- `email`: Địa chỉ email.
+
+### Bảng `chitietphieunhap`
+
+- `SoPn`: Khóa ngoại, Số phiếu nhập liên quan.
+- `MaNhacc`: ID nhà cung cấp liên quan.
+- `Masanpham`: ID sản phẩm liên quan.
+- `SLnhap`: Số lượng nhập.
+
+### Bảng `chitietphieuxuat`
+
+- `SoPx`: Khóa ngoại, Số phiếu xuất liên quan.
+- `Masanpham`: ID sản phẩm liên quan.
+- `SLxuat`: Số lượng xuất.
+
+...
+
+## Sử Dụng
+
+Để sử dụng database, bạn có thể thực hiện các truy vấn SQL như INNER JOIN, SELECT, INSERT để truy xuất và cập nhật dữ liệu theo nhu cầu.
+
+Ví dụ:
+
+```sql
+-- Lấy thông tin phiếu nhập và sản phẩm tương ứng
+SELECT phieunhap.SoPn, phieunhap.ngaynhap, hang.tensp, hang.tennhacc
+FROM phieunhap
+INNER JOIN hang ON phieunhap.Masanpham = hang.Masanpham;
